@@ -23,8 +23,8 @@ routing_rules = {
     configuration      = "Forwarding"
   },
   rr2 = {
-    name               = "secondRoutingRule"
-    frontend_endpoints = ["secondFrontendEndpoint"]
+    name               = "customRoutingRule"
+    frontend_endpoints = ["customFrontendEndpoint"]
     accepted_protocols = ["Https"]
     patterns_to_match  = ["/*"]
     enabled            = true
@@ -46,8 +46,8 @@ forwarding_configurations = {
   },
   fc2 = {
     routing_rule_name                     = "rr2"
-    backend_pool_name                     = "secondPool"
-    cache_enabled                         = false
+    backend_pool_name                     = "customPool"
+    cache_enabled                         = true
     cache_use_dynamic_compression         = false
     cache_query_parameter_strip_directive = "StripNone"
     custom_forwarding_path                = ""
@@ -100,7 +100,7 @@ backend_pools = {
     }
   },
   bp2 = {
-    name                = "secondPool"
+    name                = "customPool"
     load_balancing_name = "defaultLoadBalancing"
     health_probe_name   = "defaultHealthProbe"
     backends = {
@@ -128,26 +128,20 @@ backend_pools = {
 
 frontend_endpoints = {
   fep1 = {
-    name                              = "defaultFrontendEndpoint"
-    host_name                         = "tfvalfrontdoor.azurefd.net"
-    session_affinity_enabled          = false
-    session_affinity_ttl_seconds      = 0
-    custom_https_provisioning_enabled = false
-    custom_https_configuration = {
-      certificate_source = "FrontDoor"
-    }
+    name                                      = "defaultFrontendEndpoint"
+    host_name                                 = "tfvalfrontdoor.azurefd.net"
+    session_affinity_enabled                  = false
+    session_affinity_ttl_seconds              = 0
+    custom_https_provisioning_enabled         = false
     web_application_firewall_policy_link_name = "defaultWAFPolicy"
   },
   fep2 = {
-    name                              = "secondFrontendEndpoint"
-    host_name                         = "tfvalfrontdoor.ecomm-test-aks.alaskaair.com"
-    session_affinity_enabled          = false
-    session_affinity_ttl_seconds      = 0
-    custom_https_provisioning_enabled = true
-    custom_https_configuration = {
-      certificate_source = "FrontDoor"
-    }
-    web_application_firewall_policy_link_name = "secondWAFPolicy"
+    name                                      = "customFrontendEndpoint"
+    host_name                                 = "fd.hacker1db.dev"
+    session_affinity_enabled                  = false
+    session_affinity_ttl_seconds              = 0
+    custom_https_provisioning_enabled         = true
+    web_application_firewall_policy_link_name = "customWAFPolicy"
   }
 }
 
@@ -160,7 +154,7 @@ frontdoor_wafs = {
     redirect_url = "https://www.hop.com"
   },
   waf2 = {
-    name         = "secondWAFPolicy"
+    name         = "customWAFPolicy"
     tags         = ""
     enabled      = true
     mode         = "Prevention"
